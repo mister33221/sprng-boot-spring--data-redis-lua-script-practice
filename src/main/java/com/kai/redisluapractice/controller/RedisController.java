@@ -42,6 +42,7 @@ public class RedisController {
     }
 
     @GetMapping("/increase/{key}")
+    @Operation(summary = "Increase value of key", description = "Increase value of key", tags = { "lua script" })
     public String increase(@PathVariable String key) {
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         redisScript.setLocation(new ClassPathResource("/lua/increase.lua"));
