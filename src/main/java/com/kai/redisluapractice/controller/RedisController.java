@@ -44,10 +44,14 @@ public class RedisController {
     @GetMapping("/increase/{key}")
     @Operation(summary = "Increase value of key", description = "Increase value of key", tags = { "lua script" })
     public String increase(@PathVariable String key) {
+        // Load lua script
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
+        // Set lua script location
         redisScript.setLocation(new ClassPathResource("/lua/increase.lua"));
+        // Set lua script return type
         redisScript.setResultType(Long.class);
 
+        // Execute lua script
         Long result = redisTemplate.execute(redisScript, Collections.singletonList(key));
         return "Value of " + key + " after increase: " + result;
     }
